@@ -11,6 +11,6 @@ What we need to call the image is just fill the src in img tags with ```data:ima
 # Examples
 You can find it in Index function of ImagesController
 Or simply try to add Images in 
-***http:://localhost:yourport/images/create***
+***http://localhost:yourport/images/create***
 And check the result in
-***http:://localhost:yourport:images***
+***http://localhost:yourport:images***
