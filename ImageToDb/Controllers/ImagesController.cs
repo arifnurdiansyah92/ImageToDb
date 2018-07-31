@@ -105,34 +105,33 @@ namespace ImageToDb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ImageId,Img")] Image image)
+        public async Task<IActionResult> Edit(int id, IFormFile images)
         {
-            if (id != image.ImageId)
-            {
-                return NotFound();
-            }
+            Image image = new Image();
+            image.ImageId = id;
+            if (images != null)
 
-            if (ModelState.IsValid)
             {
-                try
+                if (images.Length > 0)
+
+                //Convert Image to byte and save to database
+
                 {
-                    _context.Update(image);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ImageExists(image.ImageId))
+
+                    byte[] p1 = null;
+                    using (var fs1 = images.OpenReadStream())
+                    using (var ms1 = new MemoryStream())
                     {
-                        return NotFound();
+                        fs1.CopyTo(ms1);
+                        p1 = ms1.ToArray();
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    image.Img = p1;
+
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(image);
+            _context.Update(image);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Images/Delete/5

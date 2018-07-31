@@ -14,7 +14,11 @@
             @Html.DisplayNameFor(model => model.Img)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Img)
+            @{
+                string imreBase64Data = Convert.ToBase64String(Model.Img);
+                string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
+            }
+            <img src="@imgDataURL" class="img-responsive" width="250" />
         </dd>
     </dl>
 </div>
